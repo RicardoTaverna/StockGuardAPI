@@ -1,0 +1,6 @@
+[MASTER]
+ignore=.venv
+[FORMAT]
+max-line-length=100
+[MESSAGES CONTROL]
+disable=missing-module-docstring,too-few-public-methods

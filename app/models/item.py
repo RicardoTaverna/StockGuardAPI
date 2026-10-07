@@ -11,3 +11,4 @@ class Item(Base):
     name: Mapped[str] = mapped_column(String(120))
     quantity: Mapped[int] = mapped_column(Integer, default=0)
     unit_price: Mapped[float] = mapped_column(Float)
+    reserved_quantity: Mapped[int] = mapped_column(Integer, default=0)

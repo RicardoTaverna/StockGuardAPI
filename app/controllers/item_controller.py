@@ -30,3 +30,25 @@ def remove_stock(db: Session, item_id: int, quantity: int) -> Item:
     db.commit()
     db.refresh(item)
     return item
+
+def reserve_stock(db: Session, item_id: int, quantity: int) -> Item:
+    """Reserve available units without changing physical stock."""
+    item = db.get(Item, item_id)
+
+    if not item:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    available_quantity = item.quantity - item.reserved_quantity
+
+    if quantity > available_quantity:
+        raise HTTPException(
+            status_code=409,
+            detail="Insufficient available stock",
+        )
+
+    item.reserved_quantity += quantity
+
+    db.commit()
+    db.refresh(item)
+
+    return item

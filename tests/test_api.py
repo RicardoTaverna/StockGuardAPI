@@ -19,3 +19,22 @@ def test_withdraw_stock(client, auth_headers):
     response = client.post(f"/items/{item['id']}/withdraw", json={"quantity": 3, "reason": "Order 42"}, headers=auth_headers)
     assert response.status_code == 200
     assert response.json()["quantity"] == 5
+
+def test_withdraw_more_than_available_stock(client, auth_headers):
+    payload = {
+        "sku": "CPU-001",
+        "name": "Processor",
+        "quantity": 5,
+        "unit_price": 899.9,
+    }
+
+    item = client.post("/items", json=payload, headers=auth_headers).json()
+
+    response = client.post(
+        f"/items/{item['id']}/withdraw",
+        json={"quantity": 6, "reason": "Order 43"},
+        headers=auth_headers,
+    )
+
+    assert response.status_code == 409
+    assert response.json()["detail"] == "Insufficient stock"

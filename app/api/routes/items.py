@@ -5,8 +5,6 @@ from app.controllers import item_controller
 from app.core.security import current_user
 from app.db.database import get_db
 from app.schemas.item import ItemCreate, ItemOut, MovementRequest
-
-
 router = APIRouter(prefix="/items", tags=["Inventory"], dependencies=[Depends(current_user)])
 
 @router.get("", response_model=list[ItemOut])

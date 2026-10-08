@@ -21,3 +21,8 @@ def post_item(payload: ItemCreate, db: Session = Depends(get_db)):
 def withdraw(item_id: int, payload: MovementRequest, db: Session = Depends(get_db)):
     """Withdraw units from an inventory item."""
     return item_controller.remove_stock(db, item_id, payload.quantity)
+
+@router.patch("/{item_id}/deactivate", response_model=ItemOut)
+def deactivate(item_id: int, db: Session = Depends(get_db)):
+    """Deactivate an inventory item."""
+    return item_controller.deactivate_item(db, item_id)

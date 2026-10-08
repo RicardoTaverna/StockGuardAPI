@@ -1,5 +1,5 @@
 """Inventory item model."""
-from sqlalchemy import Float, Integer, String
+from sqlalchemy import Boolean, Float, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 from app.db.database import Base
 
@@ -11,3 +11,4 @@ class Item(Base):
     name: Mapped[str] = mapped_column(String(120))
     quantity: Mapped[int] = mapped_column(Integer, default=0)
     unit_price: Mapped[float] = mapped_column(Float)
+    active: Mapped[bool] = mapped_column(Boolean, default=True)

@@ -19,3 +19,35 @@ def test_withdraw_stock(client, auth_headers):
     response = client.post(f"/items/{item['id']}/withdraw", json={"quantity": 3, "reason": "Order 42"}, headers=auth_headers)
     assert response.status_code == 200
     assert response.json()["quantity"] == 5
+
+def test_deactivate_item(client, auth_headers):
+    payload = {
+        "sku": "GPU-001",
+        "name": "Graphics Card",
+        "quantity": 4,
+        "unit_price": 1999.9,
+    }
+
+    item = client.post(
+        "/items",
+        json=payload,
+        headers=auth_headers,
+    ).json()
+
+    response = client.patch(
+        f"/items/{item['id']}/deactivate",
+        headers=auth_headers,
+    )
+
+    assert response.status_code == 200
+    assert response.json()["active"] is False
+    assert response.json()["quantity"] == 4
+
+def test_deactivate_missing_item(client, auth_headers):
+    response = client.patch(
+        "/items/9999/deactivate",
+        headers=auth_headers,
+    )
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Item not found"

@@ -30,3 +30,14 @@ def remove_stock(db: Session, item_id: int, quantity: int) -> Item:
     db.commit()
     db.refresh(item)
     return item
+
+def deactivate_item(db: Session, item_id: int) -> Item:
+    """Deactivate an inventory item without removing it."""
+    item = db.get(Item, item_id)
+    if not item:
+        raise HTTPException(status_code=404, detail="Item not found")
+
+    item.active = False
+    db.commit()
+    db.refresh(item)
+    return item

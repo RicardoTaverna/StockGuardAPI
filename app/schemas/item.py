@@ -12,6 +12,7 @@ class ItemOut(ItemCreate):
     """Inventory item returned by the API."""
     id: int
     model_config = ConfigDict(from_attributes=True)
+    active: bool
 
 class MovementRequest(BaseModel):
     """Payload used to move stock in or out."""

@@ -29,6 +29,7 @@ jobs:
 
       - name: Run tests
         env:
+          PYTHONPATH: .
           DATABASE_URL: sqlite:///./stockguard.db
           JWT_SECRET: stockguard-ci-secret
           JWT_ALGORITHM: HS256

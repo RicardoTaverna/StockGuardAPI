@@ -24,7 +24,7 @@ def remove_stock(db: Session, item_id: int, quantity: int) -> Item:
     item = db.get(Item, item_id)
     if not item:
         raise HTTPException(status_code=404, detail="Item not found")
-    if item.quantity < quantity:
+    if item.quantity <= quantity:
         raise HTTPException(status_code=409, detail="Insufficient stock")
     item.quantity -= quantity
     db.commit()

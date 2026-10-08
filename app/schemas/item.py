@@ -12,8 +12,13 @@ class ItemOut(ItemCreate):
     """Inventory item returned by the API."""
     id: int
     model_config = ConfigDict(from_attributes=True)
+    reserved_quantity: int
 
 class MovementRequest(BaseModel):
     """Payload used to move stock in or out."""
     quantity: int = Field(gt=0)
     reason: str = Field(min_length=3, max_length=200)
+
+class StockReservation(BaseModel):
+    """Requested quantity for a stock reservation."""
+    quantity: int = Field(gt=0)
